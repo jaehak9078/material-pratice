@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
     },
     loginBox : {
         width: '25%',
-        height: '50vh',
+        height: '460px',
         backgroundColor: 'white',
         borderRadius: '5px 5px 5px 5px',
         display:'flex',
@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
         
     },
     loginBoxHeader : {
-        height: '15vh',
+        height: '80px',
         backgroundColor: '#eeeeee',
         borderRadius: '5px 5px 0px 0px',
         display: 'flex',
@@ -56,7 +56,7 @@ const useStyles = makeStyles(() => ({
         verticalAlign: 'middle',
     },
     loginFooter : {
-        height: '5vh',
+        height: '60px',
         backgroundColor: '#eeeeee',
         borderRadius: '0px 0px 5px 5px',
         display: 'flex',

@@ -2,7 +2,13 @@
 import  {React, useContext } from 'react';
 import { OpenContext} from '../App';
 import clsx from 'clsx';
-import { Box, Button, Card, CardActionArea, CardActions, Divider, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, Card, CardActionArea, CardActions, Divider, makeStyles, Typography, Paper, InputBase } from '@material-ui/core';
+import {ChevronRight,BarChart,ShowChart,TableChart} from '@material-ui/icons';
+import AreaChart from '../components/AreaChart';
+import BarCharts from '../components/BarCharts';
+import DataTable from '../components/DataTable';
+
+
 
 const useMainStyles = makeStyles((theme)=>({
     content : {
@@ -25,6 +31,7 @@ const useMainStyles = makeStyles((theme)=>({
       display: 'flex',
       alignItems: 'center',
       paddingLeft: '15px',
+      color: '#6c757d',
   },
   card : {
       marginTop: '20px',
@@ -47,7 +54,26 @@ const useMainStyles = makeStyles((theme)=>({
       display: 'flex',
       justifyContent: 'space-between',
       marginRight: '9%',
-  }
+  },
+  loginBoxHeader : {
+    height: '50px',
+    backgroundColor: '#eeeeee',
+    borderRadius: '5px 5px 0px 0px',
+    display: 'flex',
+    paddingLeft: '20px',
+    alignItems:'center',
+    borderBottom: '1px solid #c8c8c8'
+},
+inputBox : {
+    border: '1px solid gray',
+    width: '10%',
+    alignSelf: 'center',
+    height: '36px',
+    borderRadius: '5px 5px 5px 5px',
+    paddingLeft: '8px',
+    marginLeft:'10px',
+
+},
   }));   
 const Dashboard = () => {
     const open = useContext(OpenContext);
@@ -62,28 +88,48 @@ const Dashboard = () => {
                 <Card className={styleClass.card}>
                     <CardActionArea>
                         <Box className={styleClass.cardBox}><Typography variant="h5" style={{paddingLeft:'20px'}}>Primary Card</Typography></Box>
-                        <Typography style={{paddingLeft:'20px',fontSize:'16px',paddingTop:'6px'}}>View Details</Typography>
+                        <Typography style={{paddingLeft:'20px',fontSize:'16px',paddingTop:'6px'}}>View Details<ChevronRight style={{marginLeft:'60%',verticalAlign:'middle'}}/></Typography>
                     </CardActionArea>
                 </Card>
                 <Card className={styleClass.card} style={{backgroundColor:"#ffc107"}}>
                     <CardActionArea>
                         <Box className={styleClass.cardBox} style={{borderBottom:"1px solid #d9a946"}}><Typography variant="h5" style={{paddingLeft:'20px'}}>Warning Card</Typography></Box>
-                        <Typography style={{paddingLeft:'20px',fontSize:'16px',paddingTop:'6px'}}>View Details</Typography>
+                        <Typography style={{paddingLeft:'20px',fontSize:'16px',paddingTop:'6px'}}>View Details<ChevronRight style={{marginLeft:'60%',verticalAlign:'middle'}}/></Typography>
                     </CardActionArea>
                 </Card>
                 <Card className={styleClass.card} style={{backgroundColor:"#28a745"}}>
                     <CardActionArea>
                         <Box className={styleClass.cardBox} style={{borderBottom:"1px solid #228d3a"}}><Typography variant="h5" style={{paddingLeft:'20px'}}>Success Card</Typography></Box>
-                        <Typography style={{paddingLeft:'20px',fontSize:'16px',paddingTop:'6px'}}>View Details</Typography>
+                        <Typography style={{paddingLeft:'20px',fontSize:'16px',paddingTop:'6px'}}>View Details<ChevronRight style={{marginLeft:'60%',verticalAlign:'middle'}}/></Typography>
                     </CardActionArea>
                 </Card>
                 <Card className={styleClass.card} style={{backgroundColor:"#dc3545"}}>
                     <CardActionArea>
                         <Box className={styleClass.cardBox} style={{borderBottom:"1px solid #b93343"}}><Typography variant="h5" style={{paddingLeft:'20px'}}>Danger Card</Typography></Box>
-                        <Typography style={{paddingLeft:'20px',fontSize:'16px',paddingTop:'6px'}}>View Details</Typography>
+                        <Typography style={{paddingLeft:'20px',fontSize:'16px',paddingTop:'6px'}}>View Details<ChevronRight style={{marginLeft:'60%',verticalAlign:'middle'}}/></Typography>
                     </CardActionArea>
                 </Card>
             </Box>
+            <Box style={{width:'100%',display:'flex',marginTop:'40px'}}>
+            <Paper style={{width:'45%'}}>
+                <Box className={styleClass.loginBoxHeader}><ShowChart/>Area Chart Example</Box>
+                <AreaChart/>
+            </Paper>
+            <Paper style={{width:'45%', marginLeft:'20px'}}>
+                <Box className={styleClass.loginBoxHeader}><BarChart/>Bar Chart Example</Box>
+                <BarCharts/>
+            </Paper>
+            </Box>
+            <Box style={{width:'91%', margin:'40px 0px 40px 0px', border:'1px solid #dfdfdf'}}>
+                <Box className={styleClass.loginBoxHeader}><TableChart style={{marginRight:'5px'}}/>DataTable Example</Box>
+                <Box style={{width:'97%',marginLeft:'auto',marginRight:'auto',marginBottom:'20px'}}>
+                <Box style={{display:'flex'}}><p>Full text search:</p><InputBase className={styleClass.inputBox}></InputBase></Box>
+                <Divider/>
+                
+                <DataTable/>
+                </Box>
+            </Box>
+            <Box style={{height:'40px'}}></Box>
         </div>
     );
 };

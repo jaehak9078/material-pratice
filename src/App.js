@@ -23,6 +23,8 @@ export const OpenContext = React.createContext({open:false });
 export const HandleDrawerContext = React.createContext(()=>{});
 export const HandleSHowHeader = React.createContext(()=>{});
 export const showHeaderContext = React.createContext({showHeader:true});
+export const lightDrawerContext = React.createContext({lightDrawer:true});
+export const HandleLight = React.createContext(()=>{});
     
 function App() {
   const [showHeader,setShowHeader] = useState(true);
@@ -37,10 +39,16 @@ function App() {
   const handleShowHeader = () => {
     setShowHeader(!showHeader);
   }
+  const [lightDrawer, setLightDrawer] = useState(true); // Light Sidenav 클릭시 drawer 밝게 만들기 위함.
+  const handleLight = () => {
+      setLightDrawer(!lightDrawer);
+  };
 
   return (
     <BrowserRouter>
     <div>
+      <HandleLight.Provider value={handleLight}>
+      <lightDrawerContext.Provider value={lightDrawer}>
       <HandleSHowHeader.Provider value={handleShowHeader}>
       <HandleDrawerContext.Provider value={handleDrawerOpen}>
       <OpenContext.Provider value={open}>
@@ -66,7 +74,8 @@ function App() {
       </OpenContext.Provider>
       </HandleDrawerContext.Provider>
       </HandleSHowHeader.Provider>
-
+      </lightDrawerContext.Provider>
+      </HandleLight.Provider>
     </div>
     <div>
 

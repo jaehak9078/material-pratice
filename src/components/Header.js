@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Avatar, Box, Drawer, Icon, IconButton, InputBase, List,ListItem,ListItemIcon,ListItemText, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
@@ -16,12 +16,14 @@ import clsx from 'clsx';
 import { Link, Route } from 'react-router-dom';
 import Charts from '../pages/Charts';
 import Dashboard from '../pages/Dashboard';
-import {HandleDrawerContext, OpenContext} from '../App';
+import {HandleDrawerContext, lightDrawerContext, OpenContext,} from '../App';
 import Fade from '@material-ui/core/Fade';
 import Authentication from '../pages/Authentication';
 
 
 const drawerWidth = 240;
+
+
 
 const useStyles = makeStyles((theme) => ({          //내부스타일 적용
     menuButton : {                                  //메뉴 열고 닫는 버튼
@@ -80,19 +82,35 @@ const useStyles = makeStyles((theme) => ({          //내부스타일 적용
     drawer: {                                       //사이드바
         
         flexShrink: 0,
-        height: `calc(100%- 62px)`,
-        top: '62px',
         
     },
     drawerPaper: {                                  //사이드바에 실질적으로 내용이 나오는 부분(높이랑 top을 지정해둔 것은 앱바와 겹치지 않기 위해서)
         width: drawerWidth,
-        height: `calc(100%- 63px)`,
-        top: '63px',
+        top: '63px',                                //기본적으로 drawer는 높이가 화면을 다 차지하기 때문에 appbar를 덮어씌우는 문제가 발생하여 appbar높이만큼 top값을 줘서 내린다.
+        position: 'absolute',                       //absolute 설정을 해주지 않으면 작은 화면 해상도에서 drawer가 붕뜨는 현상 발생(top:63px만큼)
         backgroundColor: '#212529',
         color: '#737678',
-       
-
-
+    },
+    onScrollDrawerPaper : {
+        width: drawerWidth,
+        position: 'fixed',
+        backgroundColor: '#212529',
+        color: '#737678',
+        top:'0px',
+    },
+    drawerPaperLight: {                                  
+        width: drawerWidth,
+        top: '63px',                                
+        position: 'absolute',                      
+        backgroundColor: '#f8f9fa',
+        color: '#737678',
+    },
+    onScrollDrawerPaperLight : {
+        width: drawerWidth,
+        position: 'fixed',
+        backgroundColor: '#f8f9fa',
+        color: '#737678',
+        top:'0px',
     },
     // drawerHeader: {                                 
     //     display: 'flex',
@@ -116,6 +134,31 @@ const useStyles = makeStyles((theme) => ({          //내부스타일 적용
         bottom:'63px',
         height:'80px',
         // top:'584px',
+    },
+    onScrollDrawerFooter: {
+        zIndex:1,
+        backgroundColor:'#343a40',
+        color:'#8f9296',
+        position:'relative',
+        bottom:'0px',
+        height:'80px',
+    },
+    drawerFooterLight: {                     //사이드바 푸터
+        zIndex:1,
+        backgroundColor:'#e9ecef',
+        color:'#8f9296',
+        position:'relative',
+        bottom:'63px',
+        height:'80px',
+        // top:'584px',
+    },
+    onScrollDrawerFooterLight: {
+        zIndex:1,
+        backgroundColor:'#e9ecef',
+        color:'#8f9296',
+        position:'relative',
+        bottom:'0px',
+        height:'80px',
     },
     paddingDiv: {                       //사이드바 푸터를 하단 배치하기 위한 임의의 빈 공간
         flex : 1,
@@ -244,6 +287,23 @@ const Header = () => {
     const [pagesEl, setPagesEl] = useState(false);      //pages 메뉴 클릭여부
     const [authenticationEl, setAuthenticationEl] = useState(false); //authentication 메뉴 클릭여부
     const [errorEl, setErrorEl] = useState(false); //error 메뉴 클릭여부
+    const [scrollTop, setScrollTop] = useState(false); //scroll 내리는지 체크. false일때가 가장 맨위. drawer 위로 고정하기 위해 필요함.
+    const lightDrawer = useContext(lightDrawerContext); //light sidebar 메뉴를 선택했을 때 drawer의 색을 바꾸기 위함.
+   
+
+    useEffect(()=>{                                             //스크롤 이벤트 등록
+        window.addEventListener('scroll',onScroll);
+         
+        return() =>{
+            window.removeEventListener('scroll',onScroll);
+        };
+    });
+
+    const onScroll = (e) => {                               //위에서부터 스크롤을 내리면 값이 증가함.
+        const top = ('scroll', e.srcElement.scrollingElement.scrollTop);
+        (top > 0) && setScrollTop(true);
+        (top === 0) && setScrollTop(false);
+    };
     
     const handleProfileMenuOpen = (event) => {          //프로필 열기
         console.log("작동확인");
@@ -331,7 +391,11 @@ const Header = () => {
             </AppBar>
             {renderMenu}
         
-        <Drawer className={styleClass.drawer} variant="persistent" anchor="left" open={open} classes={{paper: styleClass.drawerPaper,}}>
+            <Drawer className={styleClass.drawer} variant="persistent" anchor="left" open={open} classes={{paper: clsx(styleClass.drawerPaper,{  //스크롤 내릴때와 light여부에 따라 다르게 적용
+            [styleClass.onScrollDrawerPaper] : lightDrawer&&scrollTop,
+            [styleClass.drawerPaperLight] : !scrollTop&&!lightDrawer,
+            [styleClass.onScrollDrawerPaperLight] : scrollTop&&!lightDrawer,
+        })}}>
             <List paddingLeft="5px">
                     <Typography className={styleClass.menuTitle}>CORE</Typography>
             
@@ -369,7 +433,11 @@ const Header = () => {
                     </ListItem>
             </List>
             <div className={styleClass.paddingDiv}/>
-            <Box className={styleClass.drawerFooter}>
+            <Box className={clsx(styleClass.drawerFooter,{
+                [styleClass.onScrollDrawerFooter] : lightDrawer&&scrollTop,
+                [styleClass.drawerFooterLight] : !scrollTop&&!lightDrawer,
+                [styleClass.onScrollDrawerFooterLight] : scrollTop&&!lightDrawer,
+            })}>
                 <Typography style={{margin:'14px 0px 0px 10px',fontSize:'14px'}}>Logged in as:</Typography>
                 <Typography style={{marginLeft:'10px'}}>Start Bootstrap</Typography>
             </Box>
