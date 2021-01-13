@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import {Table,TableBody,TableCell,TableContainer,TableHead,TableRow} from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
+import axios from 'axios';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -26,12 +27,7 @@ const StyledTableCell = withStyles((theme) => ({
       return {number,country,area,population}
   }
 
-  const rows = [
-      createData(1,'Russia','17,075,200','146,989,754'),
-      createData(2,'France','640,679','64,979,548'),
-      createData(3,'Germany','357,114','82,114,224'),
-      createData(4,'Portugal','92,090','10,329,506'),
-  ]
+
   const useStyles = makeStyles({
     table: {
       minWidth: 700,
@@ -42,6 +38,28 @@ const StyledTableCell = withStyles((theme) => ({
 
 const DataTable = () => {
     const styleClass = useStyles();
+
+    // const [rows,setRows] = useState([]);
+
+    const [tables,setTables] = useState([]);
+
+    useEffect(()=>{
+        console.log('hi');
+        axios.get('/api/table')
+        .then((res)=>{
+            console.log(res);
+            setTables(res.data);
+        })
+        .catch((err)=>{
+            console.log(err);
+            console.log("실패..");
+        }).then(()=>{
+            console.log('tables: ',tables);
+        })
+       
+        console.log('bye');
+    },[tables])
+   
     return (
         
             <TableContainer component={Paper}>
@@ -55,14 +73,14 @@ const DataTable = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <StyledTableRow key={rows.number}>
+                        {tables.map((table) => (
+                            <StyledTableRow key={tables.number}>
                                 <StyledTableCell component="th" scope="row">
-                                    {row.number}
+                                    {table.tno}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">{row.country}</StyledTableCell>
-                                <StyledTableCell align="right">{row.area}</StyledTableCell>
-                                <StyledTableCell align="right">{row.population}</StyledTableCell>
+                                <StyledTableCell align="right">{table.country}</StyledTableCell>
+                                <StyledTableCell align="right">{table.area}</StyledTableCell>
+                                <StyledTableCell align="right">{table.population}</StyledTableCell>
                             </StyledTableRow>
                             ))}  
                     </TableBody>

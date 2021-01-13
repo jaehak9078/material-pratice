@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Avatar, Box, Drawer, Icon, IconButton, InputBase, List,ListItem,ListItemIcon,ListItemText, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
+import { Box, Drawer, IconButton, InputBase, List,ListItem,ListItemIcon,ListItemText, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LayersIcon from '@material-ui/icons/Layers';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -13,12 +13,10 @@ import TableChartIcon from '@material-ui/icons/TableChart';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
-import { Link, Route } from 'react-router-dom';
-import Charts from '../pages/Charts';
-import Dashboard from '../pages/Dashboard';
+import { Link } from 'react-router-dom';
+
 import {HandleDrawerContext, lightDrawerContext, OpenContext,} from '../App';
-import Fade from '@material-ui/core/Fade';
-import Authentication from '../pages/Authentication';
+
 
 
 const drawerWidth = 240;
@@ -429,6 +427,12 @@ const Header = () => {
                         <ListItemIcon className={styleClass.listItemStyle}><TableChartIcon/></ListItemIcon> 
                         <Link to="/tables">
                         <ListItemText primary="Tables" />
+                        </Link>
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon className={styleClass.listItemStyle}><TableChartIcon/></ListItemIcon> 
+                        <Link to="/grid">
+                        <ListItemText primary="Grid" />
                         </Link>
                     </ListItem>
             </List>

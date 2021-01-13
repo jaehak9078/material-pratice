@@ -1,11 +1,12 @@
 
-import  {React, useContext } from 'react';
+import  {React, useContext} from 'react';
 import { OpenContext} from '../App';
 import clsx from 'clsx';
 import { Box, Divider, InputBase, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { TableChart } from '@material-ui/icons';
 import DataTable from '../components/DataTable';
+
 
 const useMainStyles = makeStyles((theme)=>({
     content : {
@@ -61,9 +62,15 @@ inputBox : {
 
 },
   }));   
+
+
 const Tables = () => {
+    
     const open = useContext(OpenContext);
     const styleClass = useMainStyles();
+
+    
+
     return (
         <div className={clsx(styleClass.content, {
             [styleClass.contentShift]: open,

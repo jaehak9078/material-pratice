@@ -1,7 +1,6 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
 import {Chart,PieSeries} from '@devexpress/dx-react-chart-material-ui';
-import { ArgumentAxis } from '@devexpress/dx-react-chart';
+;
 
 const data = [
     {color:'Red', area: 8.32},

@@ -1,21 +1,19 @@
 import Header from "./components/Header";
-import {BrowserRouter, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Route} from 'react-router-dom';
 import Dashboard from "./pages/Dashboard";
 import Charts from "./pages/Charts";
 import React, {useState } from 'react'; 
-import { Table } from "@material-ui/core";
 import Tables from "./pages/Tables";
 import StaticNavigation from "./pages/StaticNavigation";
 import LightSidenav from "./pages/LightSidenav";
 import Authentication from "./pages/Authentication";
-import Error from "./pages/Error";
-import Footer from "./components/Footer";
 import Error401 from "./pages/Error401";
 import Error404 from "./pages/Error404";
 import Error500 from "./pages/Error500";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
+import GridPage from "./pages/GridPage";
 
 
 
@@ -68,6 +66,7 @@ function App() {
       <Route path="/error401" component={Error401}/>
       <Route path="/error404" component={Error404}/>
       <Route path="/error500" component={Error500}/>
+      <Route path="/grid" component={GridPage}/>
       
      
       </showHeaderContext.Provider>
